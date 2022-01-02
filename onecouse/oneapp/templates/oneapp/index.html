@@ -24,5 +24,8 @@
     <h4 class="text-white h5 text-center">Ciência de dados, BI, SQL e Banco de Dados, Excel, Machine Learning, NoSQL, Estatística </h4>
 </div>
 </div>
+{% if user.is_authenticated or session.user %}
+<h1>Yamete</h1>
+{% endif %}
 </body>
 </html>
