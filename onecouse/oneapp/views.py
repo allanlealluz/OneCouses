@@ -1,6 +1,7 @@
 from django.contrib.auth.management import get_default_username
 from django.shortcuts import render,redirect
 from .forms import registerForm,LogForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -17,17 +18,16 @@ def register(request):
   else:
     form = registerForm()
   return render(request,'oneapp/register.html',{'form':form})
-def login(request):
+def logins(request):
   if request.method == 'POST':
-    form = LogForm(request.POST)
+    form = AuthenticationForm(data=request.POST)
     nome = request.POST.get('name', False)
     password = request.POST.get('password', False)
-    user = authenticate(username=nome,password=password)
-    request.session['user'] = 'user'
-    if user is not None:
+    user = authenticate(username = nome, password = password)
+    if form.is_valid():
+      user = form.get_user()
       login(request, user)
-      request.session['user'] = 'user'
-      redirect('/')
+      return redirect('/')
   else:
-    form = LogForm()
+    form = AuthenticationForm()
   return render(request, 'oneapp/login.html', {'form': form})
