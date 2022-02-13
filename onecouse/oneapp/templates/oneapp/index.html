@@ -10,8 +10,11 @@
 <body>
 <nav class="navbar">
     <img src="{% static 'oneapp/ha.jpg' %}" class="img-fluid" style="width:auto;height:5rem;">
-    <a href='#' class="nav-link text-dark">Entrar</a>
+    <a href='login' class="nav-link text-dark">Entrar</a>
     <a href='register' class="nav-link text-dark">Matricule-se</a>
+    {% if user.is_authenticated %}
+    <a href='register' class="nav-link text-dark">d</a>
+    {% endif %}
     <h1 class="display-4 h2">OneCourse</h1>
 </nav>
 <div class="container-fluid bg-dark" style="height:10rem;">
@@ -24,8 +27,14 @@
     <h4 class="text-white h5 text-center">Ciência de dados, BI, SQL e Banco de Dados, Excel, Machine Learning, NoSQL, Estatística </h4>
 </div>
 </div>
-{% if user.is_authenticated or session.user %}
-<h1>Yamete</h1>
-{% endif %}
+<div class="container justify-content-lg-start">
+    <div class="card" style="width: 18rem;border:1px solid white;">
+{%for v in value %}
+<h2 class="text-center">{{v.nome}}</h2>
+    <img class="card-img-top" src="{% static 'img/'|add:v.img %}">
+<p class="text-center">{{v.description}}</p>
+{%endfor%}
+            </div>
+</div>
 </body>
 </html>

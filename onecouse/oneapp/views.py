@@ -4,9 +4,16 @@ from .forms import registerForm,LogForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, user_logged_in
+from .models import Courses
+
+
 def index(request):
-    return render(request,'oneapp/index.html')
+    if request.user.is_authenticated:
+        value = Courses.objects.all()
+        return render(request, 'oneapp/index.html', {'value': value})
+    else:
+        return render(request,'oneapp/index.html')
 
 def register(request):
   if request.method == 'POST':
